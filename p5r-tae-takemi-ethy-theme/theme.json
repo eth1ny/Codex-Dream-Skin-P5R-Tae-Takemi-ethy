@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "p5r-tae-takemi-ethy",
+  "brandSubtitle": "TAKEMI // CODEX",
+  "tagline": "A little pain goes a long way.",
+  "projectPrefix": "TAKEMI CLINIC · ",
+  "projectLabel": "SELECT PROJECT",
+  "statusText": "TAKEMI CLINIC // ONLINE",
+  "quote": "BACK-ALLEY DOCTOR // AFTER HOURS",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.42,
+    "focusY": 0.34,
+    "safeArea": "none",
+    "taskMode": "full"
+  },
+  "colors": {
+    "background": "#070708",
+    "panel": "#0d0d0f",
+    "panelAlt": "#171214",
+    "accent": "#eb0f24",
+    "accentAlt": "#ffffff",
+    "secondary": "#9e0c19",
+    "highlight": "#ff3048",
+    "text": "#f7f7f7",
+    "muted": "#b7b2b3",
+    "line": "rgba(235, 15, 36, .28)"
+  },
+  "promoTitle": "P5R · Tae Takemi",
+
+  "promoSub": "ethy edition",
+  "promoUrl": "https://github.com/Fei-Away/Codex-Dream-Skin",
+  "image": "background.webp",
+  "name": "P5R · Tae Takemi · ethy"
+}

@@ -1,0 +1,70 @@
+[data-ds-part="root"] {
+  color: rgba(248, 247, 247, 1);
+}
+[data-ds-part="sidebar"] {
+  background-color: rgba(8, 8, 11, 0.52);
+  border-right-color: rgba(236, 18, 37, 0.92);
+  border-right-width: 2px;
+  border-right-style: solid;
+  box-shadow: 10px 0 28px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(6px);
+}
+[data-ds-part="header"] {
+  background-color: rgba(8, 8, 10, 0.48);
+  border-bottom-color: rgba(236, 18, 37, 0.42);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  backdrop-filter: blur(6px);
+}
+[data-ds-part="home-hero"] {
+  background-color: rgba(8, 8, 11, 0.28);
+  border-left-color: rgba(236, 18, 37, 0.95);
+  border-left-width: 4px;
+  border-left-style: solid;
+  border-radius: 14px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(7px);
+}
+[data-ds-part="project-list"] {
+  background-color: rgba(9, 9, 12, 0.56);
+  border-color: rgba(255, 255, 255, 0.22);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+}
+[data-ds-part="project-list"]:hover {
+  border-color: rgba(236, 18, 37, 0.72);
+}
+[data-ds-part="thread"] {
+  background-color: rgba(7, 7, 9, 0.04);
+}
+[data-ds-part="message"] {
+  background-color: rgba(8, 8, 11, 0.70);
+  border-left-color: rgba(236, 18, 37, 0.96);
+  border-left-width: 3px;
+  border-left-style: solid;
+  border-bottom-color: rgba(255, 255, 255, 0.50);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-radius: 12px;
+  box-shadow: 6px 9px 20px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(7px);
+}
+[data-ds-part="composer"] {
+  background-color: rgba(8, 8, 11, 0.72);
+  border-radius: 16px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(7px);
+}
+[data-ds-part="composer-toolbar"] {
+  background-color: rgba(8, 8, 11, 0.42);
+}
+[data-ds-part="dialog"] {
+  background-color: rgba(9, 9, 12, 0.90);
+  border-color: rgba(236, 18, 37, 0.68);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 14px;
+  backdrop-filter: blur(8px);
+}
