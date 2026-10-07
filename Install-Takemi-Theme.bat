@@ -9,7 +9,7 @@ set "POWERSHELL=%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe"
 
 echo.
 echo ==========================================
-echo   P5R Tae Takemi Theme Installer - v1.0
+echo   P5R Tae Takemi Theme Installer - v1.2
 echo ==========================================
 echo.
 echo Checking installer files...

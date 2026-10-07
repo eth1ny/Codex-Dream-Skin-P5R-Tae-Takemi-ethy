@@ -1,5 +1,16 @@
 /* Local Dream Skin runtime supplement for the P5R Tae Takemi theme. */
 @layer dreamskin-community {
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] {
+  /* Shared P5R surface primitives. Keep visual tuning here so overlays,
+     reading panels and platform installers do not drift independently. */
+  --takemi-surface-bg: rgba(8, 8, 11, .94);
+  --takemi-surface-bg-soft: rgba(7, 7, 10, .79);
+  --takemi-surface-border: rgba(255, 255, 255, .92);
+  --takemi-surface-accent: #e90019;
+  --takemi-surface-radius: 4px 16px 4px 14px;
+  --takemi-surface-shadow: 7px 9px 0 rgba(0, 0, 0, .72), 0 16px 34px rgba(0, 0, 0, .34);
+}
+
 html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] body {
   /* Explicit alpha preserves the 1.5.18 baseline while still allowing the
      1.5.19 per-theme transparency preference to override it. */
@@ -280,7 +291,8 @@ html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] aside[data-ds-part="sidebar
 
 /* The narrow choice ribbons on the new-chat screen. Keep the original
    buttons and their click/dismiss behavior; only paint the P5R silhouette. */
-html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions button[data-dismissible] {
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions
+  :is(button[data-dismissible]:not(.absolute), div[data-dismissible][class*="_Button_"]) {
   position: relative !important;
   isolation: isolate !important;
   min-height: 49px !important;
@@ -297,39 +309,51 @@ html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .
   letter-spacing: .015em !important;
   transition: transform .16s ease !important;
 }
-html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions button[data-dismissible]::before,
-html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions button[data-dismissible]::after {
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions
+  :is(button[data-dismissible]:not(.absolute), div[data-dismissible][class*="_Button_"])::before,
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions
+  :is(button[data-dismissible]:not(.absolute), div[data-dismissible][class*="_Button_"])::after {
   content: "" !important;
   position: absolute !important;
   display: block !important;
   pointer-events: none !important;
   clip-path: polygon(0 0, 96% 0, 100% 18%, 99% 80%, 96% 100%, 3% 100%, 0 80%, 2% 67%, 0 50%) !important;
 }
-html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions button[data-dismissible]::before {
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions
+  :is(button[data-dismissible]:not(.absolute), div[data-dismissible][class*="_Button_"])::before {
   inset: 0 !important;
   z-index: -2 !important;
   background: linear-gradient(100deg, #ed0019 0 12px, #fff 12px 100%) !important;
   filter: drop-shadow(4px 5px 0 #000) !important;
 }
-html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions button[data-dismissible]::after {
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions
+  :is(button[data-dismissible]:not(.absolute), div[data-dismissible][class*="_Button_"])::after {
   inset: 4px 4px 4px 5px !important;
   z-index: -1 !important;
   background: rgba(0, 0, 0, .94) !important;
   transition: background .16s ease !important;
 }
-html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions button[data-dismissible] > span {
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions
+  :is(button[data-dismissible]:not(.absolute), div[data-dismissible][class*="_Button_"]) > span {
   position: relative !important;
   z-index: 1 !important;
   color: #fff !important;
   text-align: left !important;
 }
-html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions button[data-dismissible] > span:first-child {
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions
+  :is(button[data-dismissible]:not(.absolute), div[data-dismissible][class*="_Button_"]) > span:first-child {
   filter: grayscale(1) brightness(0) invert(1) !important;
 }
-html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions button[data-dismissible]:is(:hover, :focus-visible) {
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions
+  button[data-dismissible]:not(.absolute):is(:hover, :focus-visible),
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions
+  .relative:has(> button.absolute[data-dismissible]:is(:hover, :focus-visible)) > div[data-dismissible][class*="_Button_"] {
   transform: translateX(5px) !important;
 }
-html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions button[data-dismissible]:is(:hover, :focus-visible)::after {
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions
+  button[data-dismissible]:not(.absolute):is(:hover, :focus-visible)::after,
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"] .group\/home-suggestions
+  .relative:has(> button.absolute[data-dismissible]:is(:hover, :focus-visible)) > div[data-dismissible][class*="_Button_"]::after {
   background: #db0018 !important;
 }
 
@@ -642,16 +666,163 @@ html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] [data-ds-part="home-hero"] 
   outline-offset: 3px !important;
 }
 
-/* Model and composer menus keep their own dark glass surface and sharp accents. */
-html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] [data-radix-menu-content][class*="_ModelPickerDropdownContent_"] {
+/* Floating UI primitives. Current Codex tooltips, including the expanded
+   sidebar history card, expose role="tooltip" in both compact and interactive
+   variants. Styling the semantic surface keeps this language-independent. */
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  :is([data-ds-part="tooltip"], [role="tooltip"]) {
+  box-sizing: border-box !important;
   color: #fff !important;
-  background: rgba(9, 8, 12, .91) !important;
-  border: 2px solid #fff !important;
+  background: var(--takemi-surface-bg) !important;
+  border: 2px solid var(--takemi-surface-border) !important;
+  border-left: 5px solid var(--takemi-surface-accent) !important;
+  border-radius: var(--takemi-surface-radius) !important;
+  box-shadow: var(--takemi-surface-shadow) !important;
+  backdrop-filter: blur(4px) saturate(108%) !important;
+  -webkit-backdrop-filter: blur(4px) saturate(108%) !important;
+}
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  :is([data-ds-part="tooltip"], [role="tooltip"]) :is(svg, [class*="text-"]) {
+  color: inherit !important;
+}
+
+/* Interactive recommendation tooltips contain a real primary action. Its
+   native white surface must not inherit the tooltip's white foreground. */
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  :is([data-ds-part="tooltip"], [role="tooltip"])
+  button:is(.bg-primary-solid, [data-color="primary"][data-variant="solid"]) {
+  color: #fff !important;
+  background: #e90019 !important;
+  border-color: rgba(255, 255, 255, .82) !important;
+  box-shadow: 2px 3px 0 rgba(0, 0, 0, .58) !important;
+}
+
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  :is([data-ds-part="tooltip"], [role="tooltip"])
+  button:is(.bg-primary-solid, [data-color="primary"][data-variant="solid"]):is(:hover, :focus-visible) {
+  color: #070708 !important;
+  background: #fff !important;
+  outline-color: #e90019 !important;
+}
+
+/* Radix menus share one surface contract. Component-specific rules below only
+   describe layout or selection differences, so profile, context and model
+   menus retain their native behavior without duplicating the visual shell. */
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  :is([data-ds-part="menu"], [data-radix-menu-content]) {
+  box-sizing: border-box !important;
+  color: #fff !important;
+  background: var(--takemi-surface-bg) !important;
+  border: 2px solid var(--takemi-surface-border) !important;
+  border-left: 5px solid var(--takemi-surface-accent) !important;
+  border-radius: var(--takemi-surface-radius) !important;
+  box-shadow: var(--takemi-surface-shadow) !important;
+  backdrop-filter: blur(6px) saturate(112%) !important;
+  -webkit-backdrop-filter: blur(6px) saturate(112%) !important;
+  padding: 6px !important;
+}
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  :is([data-ds-part="menu"], [data-radix-menu-content])
+  :is([role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]) {
+  color: #fff !important;
+  background: transparent !important;
+  border-left: 3px solid transparent !important;
+  border-radius: 2px 9px 9px 2px !important;
+}
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  :is([data-ds-part="menu"], [data-radix-menu-content])
+  :is([role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"])
+  :is(:hover, :focus, :focus-visible, [data-highlighted]) {
+  color: #fff !important;
+  background: rgba(222, 0, 29, .66) !important;
+  border-left-color: #fff !important;
+}
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  :is([data-ds-part="menu"], [data-radix-menu-content])
+  :is([role="menuitemcheckbox"], [role="menuitemradio"])[aria-checked="true"] {
+  background: rgba(156, 0, 24, .48) !important;
+  border-left-color: var(--takemi-surface-accent) !important;
+}
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  :is([data-ds-part="menu"], [data-radix-menu-content])
+  :is([role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"])
+  :is([aria-disabled="true"], [data-disabled]) {
+  color: rgba(255, 255, 255, .44) !important;
+  background: transparent !important;
+  border-left-color: transparent !important;
+}
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  :is([data-ds-part="menu"], [data-radix-menu-content]) [role="separator"] {
+  background: rgba(255, 255, 255, .28) !important;
+  border-color: transparent !important;
+}
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  :is([data-ds-part="menu"], [data-radix-menu-content]) svg {
+  color: currentColor !important;
+}
+
+/* Shared confirmation/modal surface. Connector prompts and recommendation
+   permission choices use the same semantic dialog contract. */
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] [data-ds-part="dialog"] {
+  box-sizing: border-box !important;
+  color: #fff !important;
+  background: rgba(8, 8, 11, .96) !important;
+  border: 1px solid rgba(255, 255, 255, .72) !important;
   border-left: 5px solid #e90019 !important;
-  border-radius: 5px 18px 5px 16px !important;
-  box-shadow: 7px 9px 0 rgba(0, 0, 0, .75), 0 15px 35px rgba(0, 0, 0, .36) !important;
-  backdrop-filter: blur(8px) saturate(115%) !important;
-  -webkit-backdrop-filter: blur(8px) saturate(115%) !important;
+  border-radius: var(--takemi-surface-radius) !important;
+  box-shadow: var(--takemi-surface-shadow) !important;
+  backdrop-filter: blur(8px) saturate(112%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(112%) !important;
+}
+
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] [data-ds-part="dialog"]
+  button:is(.bg-primary-solid, [data-color="primary"][data-variant="solid"]) {
+  color: #fff !important;
+  background: #e90019 !important;
+  border-color: rgba(255, 255, 255, .82) !important;
+  box-shadow: 3px 4px 0 rgba(0, 0, 0, .64) !important;
+}
+
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] [data-ds-part="dialog"]
+  button:is(.bg-primary-solid, [data-color="primary"][data-variant="solid"]):is(:hover, :focus-visible) {
+  color: #070708 !important;
+  background: #fff !important;
+  outline-color: #e90019 !important;
+}
+
+/* Compact conversation metadata shares the same opaque reading surface. */
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  :is(
+    [data-ds-part="duration"],
+    .thread-scroll-container [data-content-search-turn-key]
+      .text-size-chat.text-secondary > button[aria-expanded]:not([aria-labelledby])
+  ) {
+  box-sizing: border-box !important;
+  width: fit-content !important;
+  margin-top: 5px !important;
+  padding: 3px 10px 3px 9px !important;
+  color: rgba(255, 255, 255, .9) !important;
+  background: rgba(8, 8, 11, .88) !important;
+  border: 1px solid rgba(255, 255, 255, .42) !important;
+  border-left: 4px solid #e90019 !important;
+  border-radius: 3px 10px 3px 8px !important;
+  box-shadow: 3px 4px 12px rgba(0, 0, 0, .28) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .8) !important;
+}
+
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  :is(
+    [data-ds-part="duration"],
+    .thread-scroll-container [data-content-search-turn-key]
+      .text-size-chat.text-secondary > button[aria-expanded]:not([aria-labelledby])
+  ):is(:hover, :focus-visible) {
+  color: #fff !important;
+  background: rgba(35, 5, 11, .94) !important;
+  border-color: rgba(255, 255, 255, .76) !important;
+}
+
+/* Model and composer menus keep only their component-specific differences. */
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] [data-radix-menu-content][class*="_ModelPickerDropdownContent_"] {
   padding: 6px !important;
 }
 html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] [data-radix-menu-content][class*="_ModelPickerDropdownContent_"] [role="menuitemradio"] {
@@ -672,13 +843,13 @@ html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] [data-radix-menu-content][c
 }
 html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] [data-composer-overlay-floating-ui] [class*="_suggestionMenu_"] {
   color: #fff !important;
-  background: rgba(8, 8, 11, .9) !important;
-  border: 2px solid rgba(255, 255, 255, .93) !important;
-  border-left: 5px solid #e90019 !important;
-  border-radius: 5px 18px 5px 15px !important;
-  box-shadow: 7px 9px 0 rgba(0, 0, 0, .75), 0 18px 38px rgba(0, 0, 0, .33) !important;
-  backdrop-filter: blur(8px) saturate(115%) !important;
-  -webkit-backdrop-filter: blur(8px) saturate(115%) !important;
+  background: var(--takemi-surface-bg) !important;
+  border: 2px solid var(--takemi-surface-border) !important;
+  border-left: 5px solid var(--takemi-surface-accent) !important;
+  border-radius: var(--takemi-surface-radius) !important;
+  box-shadow: var(--takemi-surface-shadow) !important;
+  backdrop-filter: blur(6px) saturate(112%) !important;
+  -webkit-backdrop-filter: blur(6px) saturate(112%) !important;
 }
 html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] [data-composer-overlay-floating-ui] [data-mention-list-scroll-area] [class~="sticky"] {
   color: #fff !important;
@@ -760,19 +931,23 @@ html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] [data-app-shell-tab-control
   border-radius: 4px 10px 0 0 !important;
 }
 
-/* The integrated terminal uses the same pane edge, with a darker reading area. */
-html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] [data-app-shell-compact-page-gutter]:has([data-codex-terminal="true"]) {
-  background: transparent !important;
-}
+/* The integrated terminal uses one translucent reading layer rather than a
+   root + viewport double-black stack. ANSI colors and xterm behavior remain
+   owned by Codex. */
 html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] [data-codex-terminal="true"] {
   color: #fff !important;
-  background: rgba(5, 5, 8, .91) !important;
-  border-left: 3px solid #e90019 !important;
-  backdrop-filter: blur(8px) saturate(105%) !important;
-  -webkit-backdrop-filter: blur(8px) saturate(105%) !important;
+  background: rgba(7, 7, 10, .34) !important;
+  border: 1px solid rgba(255, 255, 255, .52) !important;
+  border-left: 5px solid var(--takemi-surface-accent) !important;
+  box-shadow: 5px 7px 0 rgba(0, 0, 0, .34) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] [data-codex-terminal="true"] .xterm {
+  background: transparent !important;
 }
 html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] [data-codex-terminal="true"] .xterm-viewport {
-  background: rgba(5, 5, 8, .88) !important;
+  background: rgba(5, 5, 8, .8) !important;
 }
 html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] [data-codex-terminal="true"] .xterm-screen {
   background: transparent !important;
@@ -987,6 +1162,49 @@ html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"][data-takemi-settings-page="
   -webkit-backdrop-filter: blur(8px) saturate(110%) !important;
 }
 
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"][data-takemi-settings-page="pets"]
+  main[data-ds-part="main"] [class~="group/settings"] fieldset,
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  main[data-ds-part="main"]:has([data-avatar-id]) [class~="group/settings"] fieldset {
+  box-sizing: border-box !important;
+  padding: 16px !important;
+  color: #fff !important;
+  background: rgba(7, 7, 10, .82) !important;
+  border: 1px solid rgba(255, 255, 255, .48) !important;
+  border-left: 5px solid #e90019 !important;
+  border-radius: 4px 17px 4px 14px !important;
+  box-shadow: 5px 7px 20px rgba(0, 0, 0, .3) !important;
+  backdrop-filter: blur(8px) saturate(110%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(110%) !important;
+}
+
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"][data-takemi-settings-page="pets"]
+  main[data-ds-part="main"] [class~="group/settings"] button:has(> [data-avatar-id]),
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  main[data-ds-part="main"]:has([data-avatar-id]) [class~="group/settings"] button:has(> [data-avatar-id]) {
+  color: #fff !important;
+  background: rgba(12, 12, 16, .9) !important;
+  border: 1px solid rgba(255, 255, 255, .4) !important;
+  border-left: 4px solid rgba(233, 0, 25, .78) !important;
+  border-radius: 4px 14px 4px 12px !important;
+  box-shadow: 3px 5px 14px rgba(0, 0, 0, .24) !important;
+}
+
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"][data-takemi-settings-page="pets"]
+  main[data-ds-part="main"] [class~="group/settings"] button:has(> [data-avatar-id]):is(:hover, :focus-visible),
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"][data-takemi-settings-page="pets"]
+  main[data-ds-part="main"] [class~="group/settings"] button[aria-pressed="true"]:has(> [data-avatar-id]),
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  main[data-ds-part="main"]:has([data-avatar-id]) [class~="group/settings"]
+    button:has(> [data-avatar-id]):is(:hover, :focus-visible),
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  main[data-ds-part="main"]:has([data-avatar-id]) [class~="group/settings"]
+    button[aria-pressed="true"]:has(> [data-avatar-id]) {
+  color: #fff !important;
+  background: rgba(108, 0, 16, .92) !important;
+  border-color: rgba(255, 255, 255, .82) !important;
+}
+
 html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"][data-takemi-settings-page="plugins"]
   main[data-ds-part="main"] [class~="group/settings"] div.group:has([role="switch"]),
 html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"][data-takemi-settings-page="plugins"]
@@ -1108,10 +1326,15 @@ html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"]
 html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"]
   .thread-scroll-container [data-local-conversation-item-target-ids],
 html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"]
-  .thread-scroll-container :is([data-markdown-text-style="reasoning"], [data-testid*="reasoning" i], [data-testid*="thinking" i], details:has(> summary)) {
+  .thread-scroll-container :is(
+    [data-markdown-text-style="reasoning"]:not(details *):not([data-response-annotation-conversation] *),
+    [data-testid*="reasoning" i]:not(details *):not([data-response-annotation-conversation] *),
+    [data-testid*="thinking" i]:not(details *):not([data-response-annotation-conversation] *),
+    details
+  ) {
   box-sizing: border-box !important;
   color: #fff !important;
-  background: rgba(7, 7, 10, .79) !important;
+  background: var(--takemi-surface-bg-soft) !important;
   border: 1px solid rgba(255, 255, 255, .46) !important;
   border-left: 5px solid #e90019 !important;
   border-radius: 3px 15px 3px 12px !important;
@@ -1119,6 +1342,38 @@ html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"]
   padding: 14px 18px !important;
   backdrop-filter: blur(4px) !important;
   -webkit-backdrop-filter: blur(4px) !important;
+}
+
+/* ChatGPT Work renders the currently streaming commentary and tool activity in
+   an active-page tail outside the legacy thread scroll container. Give that
+   changing content a lighter shared veil, while leaving completed replies to
+   their normal reading card. */
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  [data-app-shell-active-page="true"] [data-turn-key^="history-content:tail:"]
+  :is(
+    [data-response-annotation-conversation][data-response-annotation-target]:not([data-local-conversation-final-assistant] *),
+    [data-local-conversation-item-target-ids]
+  ) {
+  box-sizing: border-box !important;
+  color: #fff !important;
+  background: rgba(7, 7, 10, .56) !important;
+  border: 1px solid rgba(255, 255, 255, .3) !important;
+  border-left: 4px solid rgba(233, 0, 25, .72) !important;
+  border-radius: 3px 13px 3px 10px !important;
+  box-shadow: 3px 5px 14px rgba(0, 0, 0, .22) !important;
+  padding: 10px 14px !important;
+  backdrop-filter: blur(3px) saturate(106%) !important;
+  -webkit-backdrop-filter: blur(3px) saturate(106%) !important;
+}
+
+/* The collapsed "thought for …" row is the summary of the same surface.
+   Keep it readable without creating a second nested panel. */
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] main[data-ds-part="main"]
+  .thread-scroll-container details > summary {
+  color: #fff !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
 
 /* Final replies already own an outer reading panel. Avoid a second nested box. */

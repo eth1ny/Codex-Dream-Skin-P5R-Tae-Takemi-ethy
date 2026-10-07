@@ -4,7 +4,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
 ENGINE_ROOT="${HOME}/.codex/codex-dream-skin-studio"
-BACKUP_ROOT="$SCRIPT_DIR/runtime-backup"
+BACKUP_ROOT="${HOME}/Library/Application Support/CodexDreamSkinStudio/backups/p5r-tae-takemi-ethy/1.5.19"
 APPLY_NOW="true"
 
 while [ "$#" -gt 0 ]; do

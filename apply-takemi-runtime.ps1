@@ -20,7 +20,7 @@ $versionPath = Join-Path $EngineRoot 'VERSION'
 $safeCssValidator = Join-Path $EngineRoot 'scripts\validate-safe-css-file.mjs'
 $bundledNode = Join-Path $EngineRoot 'runtime\node\node.exe'
 $savedTheme = Join-Path $StateRoot 'themes\p5r-tae-takemi-ethy'
-$backupRoot = Join-Path $PSScriptRoot 'runtime-backup'
+$backupRoot = Join-Path $StateRoot 'backups\p5r-tae-takemi-ethy\1.5.19'
 
 function Assert-PlainDirectory([string]$Path, [string]$Label) {
   if (-not (Test-Path -LiteralPath $Path -PathType Container)) { throw "Missing $Label directory: $Path" }
@@ -96,6 +96,38 @@ $rootStateOld = '    setAttribute(root, "data-dream-skin", "active");'
 $rootStateNew = $rootStateOld + "`n" + '    setAttribute(root, "data-dream-skin-theme-id", THEME.id || "custom");'
 $renderer = Replace-Unique $renderer $rootStateOld $rootStateNew 'Theme id'
 
+# Keep overlay discovery explicit and version-auditable. Tooltips are a
+# semantic Codex surface (including the interactive history hover card), not a
+# collection of language-specific one-off selectors.
+$tooltipContract = '{"key":"overlay-tooltip","selector":"[role=\"tooltip\"]","tier":"L1","scope":"overlay","required":false}'
+$durationContract = '{"key":"conversation-duration","selector":".thread-scroll-container [data-content-search-turn-key] .text-size-chat.text-secondary > button[aria-expanded]:not([aria-labelledby])","tier":"L3","scope":"thread","required":false}'
+$popperContract = '{"key":"overlay-popper","selector":"[data-radix-popper-content-wrapper]","tier":"L2","scope":"overlay","required":false}'
+$overlayContractOld = $popperContract
+$overlayContractPrevious = $tooltipContract + ',' + $popperContract
+$overlayContractNew = $tooltipContract + ',' + $durationContract + ',' + $popperContract
+if (-not $renderer.Contains($overlayContractNew)) {
+  if ($renderer.Contains($overlayContractPrevious)) {
+    $renderer = Replace-Unique $renderer $overlayContractPrevious $overlayContractNew 'Duration selector contract upgrade'
+  } else {
+    $renderer = Replace-Unique $renderer $overlayContractOld $overlayContractNew 'Tooltip and duration selector contracts'
+  }
+}
+
+$dialogPartOld = '    addPart(desired, "dialog", selectorNodes("overlay-dialog"));'
+$dialogPartPrevious = $dialogPartOld + "`n" + '    addPart(desired, "menu", selectorNodes("overlay-menu"));' + "`n" + '    addPart(desired, "tooltip", selectorNodes("overlay-tooltip"));'
+$dialogPartNew = $dialogPartPrevious + "`n" + '    addPart(desired, "duration", selectorNodes("conversation-duration"));'
+if (-not $renderer.Contains($dialogPartNew)) {
+  if ($renderer.Contains($dialogPartPrevious)) {
+    $renderer = Replace-Unique $renderer $dialogPartPrevious $dialogPartNew 'Duration part upgrade'
+  } else {
+    $renderer = Replace-Unique $renderer $dialogPartOld $dialogPartNew 'Floating surface parts'
+  }
+}
+
+$overlayScopeOld = '    const overlay = selectorHit("overlay-menu") || selectorHit("overlay-dialog") ||' + "`n" + '      selectorHit("overlay-popper");'
+$overlayScopeNew = '    const overlay = selectorHit("overlay-menu") || selectorHit("overlay-dialog") ||' + "`n" + '      selectorHit("overlay-tooltip") || selectorHit("overlay-popper");'
+$renderer = Replace-Unique $renderer $overlayScopeOld $overlayScopeNew 'Tooltip overlay scope'
+
 $titleMarkerStart = '  /* P5R TAE TAKEMI TITLES v1.4 START */'
 $titleMarkerEnd = '  /* P5R TAE TAKEMI TITLES v1.4 END */'
 $titleBlock = @'
@@ -158,6 +190,17 @@ $titleBlock = @'
     } else if (p5rRoot.hasAttribute("data-takemi-profile-page")) {
       p5rRoot.removeAttribute("data-takemi-profile-page");
     }
+    const p5rActiveSettingsSlug = document.querySelector(
+      '[data-settings-panel-slug][aria-current="page"]',
+    )?.getAttribute("data-settings-panel-slug") || "";
+    const p5rSettingsSlugs = new Map([
+      ["appshots", "appshots"],
+      ["plugins-settings", "plugins"],
+      ["usage", "usage"],
+      ["keyboard-shortcuts", "shortcuts"],
+      ["pets", "pets"],
+      ["parental-controls", "family"],
+    ]);
     const p5rSettingsTitle = p5rMain?.querySelector('[class*="_shell_"] h1.heading-xl, h1.heading-xl');
     const p5rSettingsTitleText = (p5rSettingsTitle?.textContent || "").trim().toLocaleLowerCase();
     const p5rSettingsPages = new Map([
@@ -173,13 +216,15 @@ $titleBlock = @'
       ["keyboard shortcuts", "shortcuts"],
       ["\u865a\u62df\u5ba0\u7269", "pets"],
       ["\u6211\u7684\u865a\u62df\u5ba0\u7269", "pets"],
+      ["mini \u4e0e\u865a\u62df\u5ba0\u7269", "pets"],
       ["virtual pets", "pets"],
       ["my virtual pets", "pets"],
       ["pets", "pets"],
       ["\u6dfb\u52a0\u5bb6\u5ead\u6210\u5458", "family"],
       ["add family member", "family"],
     ]);
-    const p5rSettingsPage = p5rSettingsPages.get(p5rSettingsTitleText) || "";
+    const p5rSettingsPage = p5rSettingsSlugs.get(p5rActiveSettingsSlug) ||
+      p5rSettingsPages.get(p5rSettingsTitleText) || "";
     if (p5rSettingsPage) {
       if (p5rRoot.getAttribute("data-takemi-settings-page") !== p5rSettingsPage) {
         p5rRoot.setAttribute("data-takemi-settings-page", p5rSettingsPage);
@@ -278,4 +323,4 @@ foreach ($destination in @($savedTheme)) {
   }
 }
 
-Write-Output 'Takemi v1.4 runtime supplement installed for Dream Skin 1.5.19. Select the saved theme from the tray, then restart or refresh Codex.'
+Write-Output 'Takemi theme v1.2 runtime supplement installed for Dream Skin 1.5.19. Select the saved theme from the tray, then restart or refresh Codex.'

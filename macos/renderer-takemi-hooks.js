@@ -57,6 +57,17 @@
     } else if (p5rRoot.hasAttribute("data-takemi-profile-page")) {
       p5rRoot.removeAttribute("data-takemi-profile-page");
     }
+    const p5rActiveSettingsSlug = document.querySelector(
+      '[data-settings-panel-slug][aria-current="page"]',
+    )?.getAttribute("data-settings-panel-slug") || "";
+    const p5rSettingsSlugs = new Map([
+      ["appshots", "appshots"],
+      ["plugins-settings", "plugins"],
+      ["usage", "usage"],
+      ["keyboard-shortcuts", "shortcuts"],
+      ["pets", "pets"],
+      ["parental-controls", "family"],
+    ]);
     const p5rSettingsTitle = p5rMain?.querySelector('[class*="_shell_"] h1.heading-xl, h1.heading-xl');
     const p5rSettingsTitleText = (p5rSettingsTitle?.textContent || "").trim().toLocaleLowerCase();
     const p5rSettingsPages = new Map([
@@ -72,13 +83,15 @@
       ["keyboard shortcuts", "shortcuts"],
       ["\u865a\u62df\u5ba0\u7269", "pets"],
       ["\u6211\u7684\u865a\u62df\u5ba0\u7269", "pets"],
+      ["mini \u4e0e\u865a\u62df\u5ba0\u7269", "pets"],
       ["virtual pets", "pets"],
       ["my virtual pets", "pets"],
       ["pets", "pets"],
       ["\u6dfb\u52a0\u5bb6\u5ead\u6210\u5458", "family"],
       ["add family member", "family"],
     ]);
-    const p5rSettingsPage = p5rSettingsPages.get(p5rSettingsTitleText) || "";
+    const p5rSettingsPage = p5rSettingsSlugs.get(p5rActiveSettingsSlug) ||
+      p5rSettingsPages.get(p5rSettingsTitleText) || "";
     if (p5rSettingsPage) {
       if (p5rRoot.getAttribute("data-takemi-settings-page") !== p5rSettingsPage) {
         p5rRoot.setAttribute("data-takemi-settings-page", p5rSettingsPage);

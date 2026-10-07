@@ -18,10 +18,10 @@ const HOOK_END = "  /* P5R TAE TAKEMI TITLES v1.4 END */";
 const options = {
   engineRoot: path.join(os.homedir(), ".codex", "codex-dream-skin-studio"),
   stateRoot: path.join(os.homedir(), "Library", "Application Support", "CodexDreamSkinStudio"),
-  themeSource: path.join(SCRIPT_ROOT, "theme"),
-  overridePath: path.join(SCRIPT_ROOT, "takemi-runtime-override.css"),
+  themeSource: path.join(SCRIPT_ROOT, "..", "p5r-tae-takemi-ethy-theme"),
+  overridePath: path.join(SCRIPT_ROOT, "..", "takemi-runtime-override.css"),
   hooksPath: path.join(SCRIPT_ROOT, "renderer-takemi-hooks.js"),
-  backupRoot: path.join(SCRIPT_ROOT, "runtime-backup"),
+  backupRoot: "",
   dryRun: false,
 };
 
@@ -75,6 +75,7 @@ function atomicCopy(source, target) {
 }
 
 const assetsRoot = path.join(options.engineRoot, "assets");
+options.backupRoot = path.join(options.stateRoot, "backups", THEME_ID, EXPECTED_VERSION);
 const rendererPath = path.join(assetsRoot, "renderer-inject.js");
 const baseCssPath = path.join(assetsRoot, "dream-skin.css");
 const versionPath = path.join(options.engineRoot, "VERSION");
@@ -114,7 +115,9 @@ const cssValidation = spawnSync(process.execPath, [safeCssValidator, themeCssPat
   stdio: ["ignore", "pipe", "pipe"],
 });
 if (cssValidation.status !== 0) {
-  throw new Error(`Theme Safe CSS validation failed: ${(cssValidation.stderr || cssValidation.stdout).trim()}`);
+  const detail = cssValidation.error?.message || cssValidation.stderr || cssValidation.stdout ||
+    `validator exited with status ${String(cssValidation.status)}`;
+  throw new Error(`Theme Safe CSS validation failed: ${String(detail).trim()}`);
 }
 
 const originalRenderer = fs.readFileSync(rendererPath, "utf8");
@@ -141,6 +144,34 @@ if (!renderer.includes(rootAttrsNew)) {
 const rootStateOld = '    setAttribute(root, "data-dream-skin", "active");';
 const rootStateNew = `${rootStateOld}\n    setAttribute(root, "data-dream-skin-theme-id", THEME.id || "custom");`;
 renderer = replaceUnique(renderer, rootStateOld, rootStateNew, "Theme identity marker");
+
+const tooltipContract = '{"key":"overlay-tooltip","selector":"[role=\\"tooltip\\"]","tier":"L1","scope":"overlay","required":false}';
+const durationContract = '{"key":"conversation-duration","selector":".thread-scroll-container [data-content-search-turn-key] .text-size-chat.text-secondary > button[aria-expanded]:not([aria-labelledby])","tier":"L3","scope":"thread","required":false}';
+const popperContract = '{"key":"overlay-popper","selector":"[data-radix-popper-content-wrapper]","tier":"L2","scope":"overlay","required":false}';
+const overlayContractsPrevious = `${tooltipContract},${popperContract}`;
+const overlayContractsNew = `${tooltipContract},${durationContract},${popperContract}`;
+if (!renderer.includes(overlayContractsNew)) {
+  renderer = renderer.includes(overlayContractsPrevious)
+    ? replaceUnique(renderer, overlayContractsPrevious, overlayContractsNew, "Duration selector contract upgrade")
+    : replaceUnique(renderer, popperContract, overlayContractsNew, "Tooltip and duration selector contracts");
+}
+
+const dialogPart = '    addPart(desired, "dialog", selectorNodes("overlay-dialog"));';
+const floatingPartsPrevious = `${dialogPart}\n    addPart(desired, "menu", selectorNodes("overlay-menu"));\n    addPart(desired, "tooltip", selectorNodes("overlay-tooltip"));`;
+const floatingPartsNew = `${floatingPartsPrevious}\n    addPart(desired, "duration", selectorNodes("conversation-duration"));`;
+if (!renderer.includes(floatingPartsNew)) {
+  renderer = renderer.includes(floatingPartsPrevious)
+    ? replaceUnique(renderer, floatingPartsPrevious, floatingPartsNew, "Duration part upgrade")
+    : replaceUnique(renderer, dialogPart, floatingPartsNew, "Floating surface parts");
+}
+
+const overlayScope = '    const overlay = selectorHit("overlay-menu") || selectorHit("overlay-dialog") ||\n      selectorHit("overlay-popper");';
+renderer = replaceUnique(
+  renderer,
+  overlayScope,
+  '    const overlay = selectorHit("overlay-menu") || selectorHit("overlay-dialog") ||\n      selectorHit("overlay-tooltip") || selectorHit("overlay-popper");',
+  "Tooltip overlay scope",
+);
 
 const hookStartIndex = renderer.indexOf(HOOK_START);
 const hookEndIndex = renderer.indexOf(HOOK_END);
