@@ -63,6 +63,36 @@ Install and launch Codex Dream Skin 1.5.19 first, then double-click the followin
 Install-Takemi-Theme.command
 ```
 
+### 🍎 macOS Installation Troubleshooting
+
+If double-clicking `Install-Takemi-Theme.command` shows **“You do not have appropriate access privileges”** or `Permission denied`, follow these steps.
+
+**Step 1: Give the installer permission to run**
+
+1. Open the built-in **Terminal** app on your Mac.
+
+2. Copy and paste the following command into Terminal:
+
+   `chmod +x`
+
+3. Press the **Space bar** once after the command.
+
+4. In Finder, locate `Install-Takemi-Theme.command`, then **drag the file into the Terminal window**.
+
+5. Press **Enter / Return**.
+
+If Terminal shows no output or error, that is normal and means the permission was set successfully.
+
+**Step 2: Start the installer**
+
+Return to Finder and **double-click `Install-Takemi-Theme.command`** to launch the theme installer.
+
+If you prefer to launch it directly from Terminal, drag the file into Terminal again and press Enter / Return.
+
+✅ **You normally only need to set this permission once. After that, you should be able to launch it by double-clicking without repeating these steps.**
+
+*Note: Only run installer files downloaded from sources you trust. If macOS shows a developer security verification warning, follow the separate security instructions provided by macOS.*
+
 The installer automatically backs up the runtime, installs the theme, applies it immediately, and verifies the result.
 
 Terminal installation:
