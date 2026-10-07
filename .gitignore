@@ -32,3 +32,6 @@ docs/unified-skin-runtime-plan.md
 windows/theme-manager/**/bin/
 windows/theme-manager/**/obj/
 windows/assets/theme-manager/
+
+macos/runtime-backup/
+macos/local-evidence/
