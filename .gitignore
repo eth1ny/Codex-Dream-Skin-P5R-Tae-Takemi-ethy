@@ -19,6 +19,7 @@ runtime/*
 !runtime/theme-package-validator.mjs
 !runtime/theme-preferences.mjs
 !runtime/validate-safe-css-file.mjs
+runtime-backup/
 
 # local agent context
 TASK_PROGRESS.md
