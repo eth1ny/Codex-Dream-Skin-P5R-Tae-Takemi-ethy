@@ -7,19 +7,17 @@ P5R red, white, and black visuals · Native control restyling · Static low-over
 
 [P5R · Tae Takemi Theme Background](./p5r-tae-takemi-ethy-theme/background.webp)
 
-> Current theme version: `v1.2`. The full Windows and macOS runtime patches currently support **Codex Dream Skin 1.5.19**.
+> Current theme version: `v1.0`. The full Windows runtime patch currently supports **Codex Dream Skin 1.5.19**. macOS support has been completed, with further real-device testing and fine-tuning planned.
 
 This project is an independently maintained fork based on [Fei-Away/Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin), focused on the Persona 5 Royal / Tae Takemi visual style, interface readability hierarchy, low-overhead static presentation, and theme localization.
 
-The v1.2 release files are located directly in the repository root, including the base theme, full visual override styles, and the one-click Windows installer.
+The v1.0 release files are located directly in the repository root, including the base theme, full visual override styles, and the one-click Windows installer.
 
 ## Features
 
 - Redesigns the visual presentation of the Codex Desktop home page, sidebar, composer, chat content, reasoning / thinking sections, and tool details around **Persona 5 Royal / Tae Takemi**.
 - Uses a P5R-inspired red, white, and black visual hierarchy while preserving Codex's native controls and interaction logic.
 - Adds dark reading overlays to Chat, Codex content, Reasoning / Thinking, and expanded tool details to improve text readability over complex backgrounds.
-- Uses one P5R Floating Surface for tooltips, history hover cards, and Radix menus. Selectors rely on semantic attributes rather than localized UI text.
-- Uses a single dark terminal reading layer that preserves ANSI colors and native xterm behavior without stacking near-black backgrounds.
 - Sidebar decoration is implemented primarily with CSS and follows the native sidebar's expanded / collapsed state.
 - The current release uses a **static low-overhead design**. Animated character overlays, HUD animations, automatic message flashing, and other extra animated resources from earlier experiments have been removed.
 - Theme titles refresh when the runtime `lang` value changes after switching languages. Other native Codex text continues to be handled by Codex's own localization system.
@@ -50,7 +48,7 @@ The theme is also copied into Dream Skin's local theme directory.
 Before the runtime is modified for the first time, the installer automatically creates:
 
 ```text
-%LOCALAPPDATA%\CodexDreamSkin\backups\p5r-tae-takemi-ethy\1.5.19\
+runtime-backup/
 ```
 
 This directory stores the original runtime files.
@@ -89,7 +87,7 @@ Restore the original Dream Skin runtime while keeping the base Tae Takemi theme:
 
 | Item | Status |
 | --- | --- |
-| Theme version | `v1.2` |
+| Theme version | `v1.0` |
 | Windows full runtime theme | ✅ Verified with Dream Skin `1.5.19` |
 | Windows base theme ZIP | ✅ |
 | macOS base theme ZIP | ✅ |
@@ -98,7 +96,7 @@ Restore the original Dream Skin runtime while keeping the base Tae Takemi theme:
 ## Updates and Recovery
 
 - Keep a copy of the current working version before updating the theme.
-- On its first run, `apply-takemi-runtime.ps1` stores the original Dream Skin runtime under the Dream Skin state directory. Generated runtime backups are not stored or maintained in the repository.
+- On its first run, `apply-takemi-runtime.ps1` backs up the Dream Skin runtime files it modifies into `runtime-backup/`.
 - After a major Dream Skin update, re-adapt and verify the theme patch instead of reusing an older runtime patch unchanged.
 - If the full runtime theme encounters compatibility issues, restore or reinstall the original Dream Skin first, then use the base theme ZIP if needed.
 
@@ -126,8 +124,6 @@ The theme currently consists of three main parts:
 ### Windows Runtime Patch
 
 [`apply-takemi-runtime.ps1`](./apply-takemi-runtime.ps1)
-
-`takemi-runtime-override.css` and `p5r-tae-takemi-ethy-theme/` are the single cross-platform visual sources for Windows and macOS. `macos/` only contains platform installers, restore logic, and renderer hooks; it no longer carries duplicate CSS, theme assets, or runtime backups. Floating UI is located through renderer selector contracts and shared CSS surface primitives, so a future Codex DOM change should be handled by updating the affected contract instead of adding page- or language-specific patches.
 
 ## License and Disclaimer
 
