@@ -4,6 +4,7 @@
 
 **本项目为 Codex 制作的 Persona 5 Royal / 武见妙 风格沉浸式主题。**  
 P5R 红白黑视觉 · 原生控件换肤 · 静态低负载 · 中英文标题适配
+<img width="1726" height="1261" alt="002" src="https://github.com/user-attachments/assets/fda12879-8914-4761-9f1c-a65760be30d8" />
 
 [P5R · Tae Takemi 主题背景](./p5r-tae-takemi-ethy-theme/background.webp)
 
