@@ -7,11 +7,11 @@ P5R red, white, and black visuals · Native control restyling · Static low-over
 
 [P5R · Tae Takemi Theme Background](./p5r-tae-takemi-ethy-theme/background.webp)
 
-> Current theme version: `v1.0`. The full Windows runtime patch currently supports **Codex Dream Skin 1.5.19**. macOS support has been completed, with further real-device testing and fine-tuning planned.
+> Current theme version: `v1.2`. The full Windows runtime patch currently supports **Codex Dream Skin 1.5.19**. macOS support has been completed, with further real-device testing and fine-tuning planned.
 
 This project is an independently maintained fork based on [Fei-Away/Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin), focused on the Persona 5 Royal / Tae Takemi visual style, interface readability hierarchy, low-overhead static presentation, and theme localization.
 
-The v1.0 release files are located directly in the repository root, including the base theme, full visual override styles, and the one-click Windows installer.
+The v1.2 release files are located directly in the repository root, including the base theme, full visual override styles, and the one-click Windows installer.
 
 ## Features
 
@@ -117,7 +117,7 @@ Restore the original Dream Skin runtime while keeping the base Tae Takemi theme:
 
 | Item | Status |
 | --- | --- |
-| Theme version | `v1.0` |
+| Theme version | `v1.2` |
 | Windows full runtime theme | ✅ Verified with Dream Skin `1.5.19` |
 | Windows base theme ZIP | ✅ |
 | macOS base theme ZIP | ✅ |
