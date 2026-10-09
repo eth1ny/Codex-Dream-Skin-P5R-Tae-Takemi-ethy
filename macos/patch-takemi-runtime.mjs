@@ -9,7 +9,7 @@ import { Script } from "node:vm";
 import { fileURLToPath } from "node:url";
 
 const SCRIPT_ROOT = path.dirname(fileURLToPath(import.meta.url));
-const EXPECTED_VERSION = "1.5.19";
+const EXPECTED_VERSION = "1.5.20";
 const THEME_ID = "p5r-tae-takemi-ethy";
 const CSS_MARKER = "/* Local Dream Skin runtime supplement for the P5R Tae Takemi theme. */";
 const HOOK_START = "  /* P5R TAE TAKEMI TITLES v1.4 START */";
@@ -267,3 +267,5 @@ if (!options.dryRun) {
 }
 
 process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+
+[executed on device: EthLocal (2f5dbfe9-c9cd-44fd-9aa7-77a77f7fac81)]

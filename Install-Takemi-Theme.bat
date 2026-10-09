@@ -9,7 +9,7 @@ set "POWERSHELL=%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe"
 
 echo.
 echo ==========================================
-echo   P5R Tae Takemi Theme Installer - v1.2
+echo   P5R Tae Takemi Theme Installer - v1.3
 echo ==========================================
 echo.
 echo Checking installer files...
@@ -25,7 +25,7 @@ set "POWERSHELL=pwsh.exe"
 :run_installer
 echo.
 echo Installing the full Windows theme...
-echo Target runtime: Codex Dream Skin 1.5.19
+echo Target runtime: Codex Dream Skin 1.5.20
 echo.
 echo The installer will verify the runtime version and create a backup
 echo before changing Dream Skin runtime files.
@@ -84,8 +84,12 @@ echo ==========================================
 echo.
 echo Exit code: %EXITCODE%
 echo Review the error message above.
-echo If Dream Skin is not version 1.5.19, the installer will stop by design.
+echo If Dream Skin is not version 1.5.20, the installer will stop by design.
 echo.
 pause
 popd
 exit /b %EXITCODE%
+
+[executed on device: EthLocal (2f5dbfe9-c9cd-44fd-9aa7-77a77f7fac81)]
+
+[executed on device: EthLocal (2f5dbfe9-c9cd-44fd-9aa7-77a77f7fac81)]

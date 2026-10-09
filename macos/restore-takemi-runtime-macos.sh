@@ -4,7 +4,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
 ENGINE_ROOT="${HOME}/.codex/codex-dream-skin-studio"
-BACKUP_ROOT="${HOME}/Library/Application Support/CodexDreamSkinStudio/backups/p5r-tae-takemi-ethy/1.5.19"
+BACKUP_ROOT="${HOME}/Library/Application Support/CodexDreamSkinStudio/backups/p5r-tae-takemi-ethy/1.5.20"
 APPLY_NOW="true"
 
 while [ "$#" -gt 0 ]; do
@@ -27,8 +27,8 @@ for file in "$RENDERER_BACKUP" "$CSS_BACKUP" "$RENDERER_TARGET" "$CSS_TARGET"; d
     exit 1
   }
 done
-[ "$(tr -d '[:space:]' < "$ENGINE_ROOT/VERSION")" = "1.5.19" ] || {
-  printf 'Restore is locked to Dream Skin 1.5.19. Reinstall the current DMG instead.\n' >&2
+[ "$(tr -d '[:space:]' < "$ENGINE_ROOT/VERSION")" = "1.5.20" ] || {
+  printf 'Restore is locked to Dream Skin 1.5.20. Reinstall the current DMG instead.\n' >&2
   exit 1
 }
 
@@ -50,3 +50,5 @@ if [ "$APPLY_NOW" = "true" ] && [ -x "$ENGINE_ROOT/scripts/switch-theme-macos.sh
 fi
 
 printf 'Takemi runtime supplement removed; the safe ZIP-level theme remains active.\n'
+
+[executed on device: EthLocal (2f5dbfe9-c9cd-44fd-9aa7-77a77f7fac81)]

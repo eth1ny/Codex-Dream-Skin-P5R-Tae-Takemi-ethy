@@ -20,7 +20,7 @@ $versionPath = Join-Path $EngineRoot 'VERSION'
 $safeCssValidator = Join-Path $EngineRoot 'scripts\validate-safe-css-file.mjs'
 $bundledNode = Join-Path $EngineRoot 'runtime\node\node.exe'
 $savedTheme = Join-Path $StateRoot 'themes\p5r-tae-takemi-ethy'
-$backupRoot = Join-Path $StateRoot 'backups\p5r-tae-takemi-ethy\1.5.19'
+$backupRoot = Join-Path $StateRoot 'backups\p5r-tae-takemi-ethy\1.5.20'
 
 function Assert-PlainDirectory([string]$Path, [string]$Label) {
   if (-not (Test-Path -LiteralPath $Path -PathType Container)) { throw "Missing $Label directory: $Path" }
@@ -33,7 +33,7 @@ function Assert-PlainDirectory([string]$Path, [string]$Label) {
 function Replace-Unique([string]$Text, [string]$Old, [string]$New, [string]$Label) {
   if ($Text.Contains($New)) { return $Text }
   if ($Text.Split(@($Old), [System.StringSplitOptions]::None).Length -ne 2) {
-    throw "$Label insertion point is missing or ambiguous. Reinstall Dream Skin 1.5.19 before retrying."
+    throw "$Label insertion point is missing or ambiguous. Reinstall Dream Skin 1.5.20 before retrying."
   }
   return $Text.Replace($Old, $New)
 }
@@ -51,8 +51,8 @@ foreach ($path in $requiredFiles) {
 }
 
 $runtimeVersion = ([System.IO.File]::ReadAllText($versionPath)).Trim()
-if ($runtimeVersion -cne '1.5.19') {
-  throw "This runtime patch is verified only for Dream Skin 1.5.19; found '$runtimeVersion'."
+if ($runtimeVersion -cne '1.5.20') {
+  throw "This runtime patch is verified only for Dream Skin 1.5.20; found '$runtimeVersion'."
 }
 
 $themeConfig = Get-Content -LiteralPath (Join-Path $themeSource 'theme.json') -Raw | ConvertFrom-Json
@@ -76,7 +76,7 @@ $override = [System.IO.File]::ReadAllText($overridePath)
 # The 1.5.18 bare attribute selector blanks 26.924+ conversation routes.
 $safeFadeSelector = ':is(.app-shell-main-content-top-fade, [data-app-shell-main-content-top-fade]:not(:has(*)), [class*="_MainContentTopFade_"])'
 if (-not $baseCss.Contains($safeFadeSelector)) {
-  throw 'The Dream Skin 1.5.19 safe top-fade selector is missing. Reinstall the unmodified 1.5.19 runtime.'
+  throw 'The Dream Skin 1.5.20 safe top-fade selector is missing. Reinstall the unmodified 1.5.20 runtime.'
 }
 
 $rootAttrsOld = '    "data-dream-skin", SHELL_ATTR, "data-dream-upload-alpha",'
@@ -279,7 +279,7 @@ $rendererForCompile = $renderer.Replace('__DREAM_SKIN_CSS_JSON__', '""')
 $rendererForCompile = $rendererForCompile.Replace('__DREAM_SKIN_ART_JSON__', '"data:image/webp;base64,"')
 $rendererForCompile = $rendererForCompile.Replace('__DREAM_SKIN_THEME_JSON__', '{}')
 $rendererForCompile = $rendererForCompile.Replace('__DREAM_SKIN_ART_METADATA_JSON__', 'null')
-$rendererForCompile = $rendererForCompile.Replace('__DREAM_SKIN_VERSION_JSON__', '"1.5.19"')
+$rendererForCompile = $rendererForCompile.Replace('__DREAM_SKIN_VERSION_JSON__', '"1.5.20"')
 $rendererForCompile = $rendererForCompile.Replace('__DREAM_SKIN_STYLE_REVISION_JSON__', '"takemi-check"')
 $rendererForCompile = $rendererForCompile.Replace('__DREAM_SKIN_PAYLOAD_REVISION_JSON__', '"takemi-check"')
 $compilePath = Join-Path ([System.IO.Path]::GetTempPath()) ("takemi-renderer-{0}.js" -f [guid]::NewGuid().ToString('N'))
@@ -323,4 +323,8 @@ foreach ($destination in @($savedTheme)) {
   }
 }
 
-Write-Output 'Takemi theme v1.2 runtime supplement installed for Dream Skin 1.5.19. Select the saved theme from the tray, then restart or refresh Codex.'
+Write-Output 'Takemi theme v1.3 runtime supplement installed for Dream Skin 1.5.20. Select the saved theme from the tray, then restart or refresh Codex.'
+
+[executed on device: EthLocal (2f5dbfe9-c9cd-44fd-9aa7-77a77f7fac81)]
+
+[executed on device: EthLocal (2f5dbfe9-c9cd-44fd-9aa7-77a77f7fac81)]

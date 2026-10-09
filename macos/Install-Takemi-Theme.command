@@ -16,7 +16,7 @@ if [ "$(/usr/bin/uname -s)" != "Darwin" ]; then
   status=1
 elif [ ! -d "$HOME/.codex/codex-dream-skin-studio" ]; then
   printf '错误：尚未安装 Codex Dream Skin。\n' >&2
-  printf '请先安装并启动 Codex Dream Skin 1.5.19，再双击本文件。\n' >&2
+  printf '请先安装并启动 Codex Dream Skin 1.5.20，再双击本文件。\n' >&2
   status=1
 elif [ ! -f "$INSTALLER" ]; then
   printf '错误：macOS 安装脚本缺失，请重新下载完整主题文件夹。\n' >&2
@@ -37,3 +37,5 @@ fi
 printf '\n按回车键关闭窗口…'
 IFS= read -r _
 exit "$status"
+
+[executed on device: EthLocal (2f5dbfe9-c9cd-44fd-9aa7-77a77f7fac81)]
