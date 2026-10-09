@@ -81,7 +81,7 @@ jobs:
       - name: Publish v1.3 GitHub Release
         shell: bash
         env:
-          GH_TOKEN: \${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           if gh release view v1.3 >/dev/null 2>&1; then
