@@ -1,0 +1,112 @@
+name: Publish Tae Takemi Theme v1.3
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-takemi-v1.3.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: takemi-theme-release-v1.3
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.repository == 'eth1ny/Codex-Dream-Skin-P5R-Tae-Takemi-ethy'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact release source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Verify intended version and file list
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -Fq 'v1.3' README.md
+          grep -Fq '1.5.20' README.md
+          grep -Fq '1.5.20' README.en.md
+          grep -Fq '1.5.20' apply-takemi-runtime.ps1
+          grep -Fq '"1.5.20"' macos/patch-takemi-runtime.mjs
+          grep -Fq '1.5.20' macos/restore-takemi-runtime-macos.sh
+          node --check macos/patch-takemi-runtime.mjs
+          bash -n macos/Install-Takemi-Theme.command macos/apply-takemi-runtime-macos.sh macos/restore-takemi-runtime-macos.sh macos/test-patch-macos.sh
+          for file in \
+            README.md README.en.md MAINTENANCE.md .gitignore \
+            Install-Takemi-Theme.bat apply-takemi-runtime.ps1 \
+            takemi-runtime-override.css p5r-tae-takemi-ethy-theme.zip \
+            macos/.gitignore macos/Install-Takemi-Theme.command \
+            macos/apply-takemi-runtime-macos.sh macos/patch-takemi-runtime.mjs \
+            macos/renderer-takemi-hooks.js macos/restore-takemi-runtime-macos.sh \
+            macos/test-patch-macos.sh p5r-tae-takemi-ethy-theme/background.webp \
+            p5r-tae-takemi-ethy-theme/theme.css p5r-tae-takemi-ethy-theme/theme.json; do
+            test -s "$file" || { echo "Missing or empty: $file" >&2; exit 1; }
+          done
+
+      - name: Build release assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          name='Codex-Dream-Skin-P5R-Tae-Takemi-ethy-v1.3.zip'
+          # Preserve macOS launcher executable permission in the distributed ZIP.
+          chmod +x macos/Install-Takemi-Theme.command
+          zip -q -X "$name" \
+            README.md README.en.md MAINTENANCE.md .gitignore \
+            Install-Takemi-Theme.bat apply-takemi-runtime.ps1 \
+            takemi-runtime-override.css p5r-tae-takemi-ethy-theme.zip \
+            macos/.gitignore macos/Install-Takemi-Theme.command \
+            macos/apply-takemi-runtime-macos.sh macos/patch-takemi-runtime.mjs \
+            macos/renderer-takemi-hooks.js macos/restore-takemi-runtime-macos.sh \
+            macos/test-patch-macos.sh p5r-tae-takemi-ethy-theme/background.webp \
+            p5r-tae-takemi-ethy-theme/theme.css p5r-tae-takemi-ethy-theme/theme.json
+          test "$(unzip -Z -1 "$name" | wc -l | tr -d ' ')" = 18
+          unzip -t "$name"
+          sha256sum "$name" > "$name.sha256"
+          sha256sum -c "$name.sha256"
+          printf 'RELEASE_ASSET=%s\n' "$name" >> "$GITHUB_ENV"
+
+      - name: Publish v1.3 GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: \${{ github.token }}
+        run: |
+          set -euo pipefail
+          if gh release view v1.3 >/dev/null 2>&1; then
+            echo 'v1.3 already exists; refusing to overwrite.'
+            exit 1
+          fi
+          cat > "$RUNNER_TEMP/takemi-v1.3-notes.md" <<'NOTES'
+          ## P5R Tae Takemi Theme v1.3
+
+          Compatibility update for **Codex Dream Skin v1.5.20**.
+
+          ### English
+          - Updated Windows and macOS runtime patches and version guards for Dream Skin v1.5.20.
+          - Updated installation, backup, and restore compatibility logic.
+          - Preserved the existing Persona 5 Royal / Tae Takemi visuals and Chinese/English front-end copy.
+          - Maintained the low-overhead static theme without additional animations.
+          - Updated bilingual README documentation and macOS installation guidance.
+
+          ### 中文
+          - 适配 Codex Dream Skin v1.5.20。
+          - 更新 Windows/macOS 运行时补丁、版本检查及备份恢复逻辑。
+          - 保持上一版 P5R 武见妙视觉样式与中英文前端文案不变。
+          - 保持静态低负载主题，不增加动画。
+          - 更新中英文安装说明和 macOS 安装权限说明。
+
+          **Requirements / 安装要求：** Codex Dream Skin v1.5.20
+
+          **Platforms / 平台：** Windows / macOS
+
+          **Note:** This is an unofficial fan-made theme. It is not an official OpenAI or Persona 5 Royal product.
+          NOTES
+          gh release create v1.3 \
+            "$RELEASE_ASSET" "$RELEASE_ASSET.sha256" \
+            --target "$GITHUB_SHA" \
+            --title 'P5R Tae Takemi Theme v1.3' \
+            --notes-file "$RUNNER_TEMP/takemi-v1.3-notes.md" \
+            --latest
