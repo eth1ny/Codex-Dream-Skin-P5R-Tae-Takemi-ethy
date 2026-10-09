@@ -29,7 +29,3 @@ Do not add selectors based on translated UI text. Prefer stable `data-*`, test I
 6. Test both Chinese and English without adding text-dependent selectors.
 7. Confirm the runtime supplement marker and renderer hook block occur exactly once after a second install.
 8. Build releases from the canonical root CSS and base-theme directory only.
-
-[executed on device: EthLocal (2f5dbfe9-c9cd-44fd-9aa7-77a77f7fac81)]
-
-[executed on device: EthLocal (2f5dbfe9-c9cd-44fd-9aa7-77a77f7fac81)]

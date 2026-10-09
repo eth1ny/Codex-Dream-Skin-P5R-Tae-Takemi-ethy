@@ -89,7 +89,3 @@ echo.
 pause
 popd
 exit /b %EXITCODE%
-
-[executed on device: EthLocal (2f5dbfe9-c9cd-44fd-9aa7-77a77f7fac81)]
-
-[executed on device: EthLocal (2f5dbfe9-c9cd-44fd-9aa7-77a77f7fac81)]

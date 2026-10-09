@@ -170,7 +170,3 @@ The theme currently consists of three main parts:
 ## Acknowledgements
 
 - Original project: [Fei-Away/Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin)
-
-[executed on device: EthLocal (2f5dbfe9-c9cd-44fd-9aa7-77a77f7fac81)]
-
-[executed on device: EthLocal (2f5dbfe9-c9cd-44fd-9aa7-77a77f7fac81)]

@@ -37,5 +37,3 @@ fi
 printf '\n按回车键关闭窗口…'
 IFS= read -r _
 exit "$status"
-
-[executed on device: EthLocal (2f5dbfe9-c9cd-44fd-9aa7-77a77f7fac81)]

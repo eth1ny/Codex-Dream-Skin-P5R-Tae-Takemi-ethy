@@ -50,5 +50,3 @@ if [ "$APPLY_NOW" = "true" ] && [ -x "$ENGINE_ROOT/scripts/switch-theme-macos.sh
 fi
 
 printf 'Takemi runtime supplement removed; the safe ZIP-level theme remains active.\n'
-
-[executed on device: EthLocal (2f5dbfe9-c9cd-44fd-9aa7-77a77f7fac81)]
