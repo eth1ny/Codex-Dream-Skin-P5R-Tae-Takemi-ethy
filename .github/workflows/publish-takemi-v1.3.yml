@@ -33,6 +33,15 @@ jobs:
           grep -Fq '1.5.20' apply-takemi-runtime.ps1
           grep -Fq '"1.5.20"' macos/patch-takemi-runtime.mjs
           grep -Fq '1.5.20' macos/restore-takemi-runtime-macos.sh
+          # Remove legacy transport footer in the Windows installer source before packaging.
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('apply-takemi-runtime.ps1')
+          s = p.read_text(encoding='utf-8')
+          marker = '[executed on device:'
+          if marker in s:
+              p.write_text(s.split(marker, 1)[0].rstrip() + '\n', encoding='utf-8')
+          PY
           node --check macos/patch-takemi-runtime.mjs
           bash -n macos/Install-Takemi-Theme.command macos/apply-takemi-runtime-macos.sh macos/restore-takemi-runtime-macos.sh macos/test-patch-macos.sh
           for file in \
