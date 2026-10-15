@@ -4,7 +4,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
 ENGINE_ROOT="${HOME}/.codex/codex-dream-skin-studio"
-BACKUP_ROOT="${HOME}/Library/Application Support/CodexDreamSkinStudio/backups/p5r-tae-takemi-ethy/1.5.20"
+BACKUP_ROOT=""
 APPLY_NOW="true"
 
 while [ "$#" -gt 0 ]; do
@@ -16,6 +16,9 @@ while [ "$#" -gt 0 ]; do
   esac
 done
 
+ENGINE_VERSION="$(tr -d '[:space:]' < "$ENGINE_ROOT/VERSION")"
+case "$ENGINE_VERSION" in *[!0-9.]*|"" ) printf "Invalid engine version.\n" >&2; exit 1 ;; esac
+if [ -z "$BACKUP_ROOT" ]; then BACKUP_ROOT="${HOME}/Library/Application Support/CodexDreamSkinStudio/backups/p5r-tae-takemi-ethy/$ENGINE_VERSION"; fi
 RENDERER_BACKUP="$BACKUP_ROOT/renderer-inject.js"
 CSS_BACKUP="$BACKUP_ROOT/dream-skin.css"
 RENDERER_TARGET="$ENGINE_ROOT/assets/renderer-inject.js"
@@ -27,10 +30,7 @@ for file in "$RENDERER_BACKUP" "$CSS_BACKUP" "$RENDERER_TARGET" "$CSS_TARGET"; d
     exit 1
   }
 done
-[ "$(tr -d '[:space:]' < "$ENGINE_ROOT/VERSION")" = "1.5.20" ] || {
-  printf 'Restore is locked to Dream Skin 1.5.20. Reinstall the current DMG instead.\n' >&2
-  exit 1
-}
+[ -f "$BACKUP_ROOT/metadata.json" ] && grep -Fq "\"dreamSkinVersion\": \"$ENGINE_VERSION\"" "$BACKUP_ROOT/metadata.json" || { printf "Backup version does not match runtime.\n" >&2; exit 1; }
 
 restore_one() {
   local source="$1"

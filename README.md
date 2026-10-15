@@ -8,11 +8,11 @@ P5R 红白黑视觉 · 原生控件换肤 · 静态低负载 · 中英文标题�
 
 [P5R · Tae Takemi 主题背景](./p5r-tae-takemi-ethy-theme/background.webp)
 
-> 当前主题版本：`v1.3`。Windows 与 macOS 完整运行时补丁目前适配 **Codex Dream Skin 1.5.20**。
+> 当前主题版本：`v1.3.1`。Windows 与 macOS 完整运行时补丁目前适配 **Codex Dream Skin 1.5.20 / 1.5.21**。
 
 本项目是基于 [Fei-Away/Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin) 持续维护的独立 fork，主要维护 Persona 5 Royal / 武见妙视觉、界面阅读层级、低负载静态表现与主题本地化。
 
-本仓库的 v1.3 发布文件直接位于仓库根目录，包括基础主题、完整视觉覆盖样式与 Windows 一键安装脚本。
+本仓库的 v1.3.1 发布文件直接位于仓库根目录，包括基础主题、完整视觉覆盖样式与 Windows 一键安装脚本。
 
 ## 功能
 
@@ -29,7 +29,7 @@ P5R 红白黑视觉 · 原生控件换肤 · 静态低负载 · 中英文标题�
 
 ### Windows ：一键安装完整主题
 
-完整主题当前适配 **Codex Dream Skin 1.5.20**。
+完整主题当前适配 **Codex Dream Skin 1.5.20 / 1.5.21**。
 
 1. 先从 [Fei-Away/Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin) 安装并启动 Codex Dream Skin。
 2. 确认 Codex Desktop 与 Dream Skin 可以正常打开。
@@ -38,7 +38,7 @@ P5R 红白黑视觉 · 原生控件换肤 · 静态低负载 · 中英文标题�
 5. 等待安装完成后，在 Dream Skin 托盘菜单的 **Saved Themes / 已保存主题** 中选择 **P5R · Tae Takemi · ethy**。
 6. 重启或刷新 Codex。
 
-批处理文件会调用同目录下的 `apply-takemi-runtime.ps1`。脚本会自动检查 Dream Skin 运行时版本；如果不是 `1.5.20`，会停止安装，避免直接修改未知版本。
+批处理文件会调用同目录下的 `apply-takemi-runtime.ps1`。脚本会自动检查 Dream Skin 运行时版本；会检查运行时关键代码结构和语法，不会按固定版本号直接拒绝；不兼容时安全停止。
 
 安装过程中会修改：
 
@@ -51,7 +51,7 @@ P5R 红白黑视觉 · 原生控件换肤 · 静态低负载 · 中英文标题�
 首次修改前会自动创建：
 
 ```text
-%LOCALAPPDATA%\CodexDreamSkin\backups\p5r-tae-takemi-ethy\1.5.20\
+%LOCALAPPDATA%\CodexDreamSkin\backups\p5r-tae-takemi-ethy\<runtime-version>\
 ```
 
 用于保存原始运行时文件。
@@ -60,7 +60,7 @@ P5R 红白黑视觉 · 原生控件换肤 · 静态低负载 · 中英文标题�
 
 ### MacOS ：一键安装完整主题
 
-先安装并启动 Codex Dream Skin 1.5.20，然后直接双击 根目录macos文件夹内：
+先安装并启动 Codex Dream Skin 1.5.20 / 1.5.21，然后直接双击 根目录macos文件夹内：
 
 ```text
 Install-Takemi-Theme.command
@@ -120,8 +120,8 @@ Install-Takemi-Theme.command
 
 | 项目 | 状态 |
 | --- | --- |
-| 主题版本 | `v1.3` |
-| Windows 完整运行时主题 | ✅ Dream Skin `1.5.20` 已验证 |
+| 主题版本 | `v1.3.1` |
+| Windows 完整运行时主题 | ✅ Dream Skin `1.5.20 / 1.5.21` 已验证 |
 | Windows 基础主题 ZIP | ✅ |
 | macOS 基础主题 ZIP | ✅ |
 | macOS 完整运行时主题 | ✅ 已完成 |

@@ -9,7 +9,6 @@ import { Script } from "node:vm";
 import { fileURLToPath } from "node:url";
 
 const SCRIPT_ROOT = path.dirname(fileURLToPath(import.meta.url));
-const EXPECTED_VERSION = "1.5.20";
 const THEME_ID = "p5r-tae-takemi-ethy";
 const CSS_MARKER = "/* Local Dream Skin runtime supplement for the P5R Tae Takemi theme. */";
 const HOOK_START = "  /* P5R TAE TAKEMI TITLES v1.4 START */";
@@ -54,7 +53,7 @@ function replaceUnique(text, before, after, label) {
   if (text.includes(after)) return text;
   const first = text.indexOf(before);
   if (first < 0 || text.indexOf(before, first + before.length) >= 0) {
-    throw new Error(`${label} insertion point is missing or ambiguous. Reinstall unmodified Dream Skin ${EXPECTED_VERSION}.`);
+    throw new Error(`${label} insertion point is missing or ambiguous. Reinstall an unmodified compatible Dream Skin runtime.`);
   }
   return text.slice(0, first) + after + text.slice(first + before.length);
 }
@@ -75,10 +74,13 @@ function atomicCopy(source, target) {
 }
 
 const assetsRoot = path.join(options.engineRoot, "assets");
-options.backupRoot = path.join(options.stateRoot, "backups", THEME_ID, EXPECTED_VERSION);
+const versionPath = path.join(options.engineRoot, "VERSION");
+assertRegularFile(versionPath, "Engine version");
+const runtimeVersion = fs.readFileSync(versionPath, "utf8").trim();
+if (!/^\d+\.\d+\.\d+$/.test(runtimeVersion)) throw new Error("Invalid Dream Skin runtime version.");
+options.backupRoot = path.join(options.stateRoot, "backups", THEME_ID, runtimeVersion);
 const rendererPath = path.join(assetsRoot, "renderer-inject.js");
 const baseCssPath = path.join(assetsRoot, "dream-skin.css");
-const versionPath = path.join(options.engineRoot, "VERSION");
 const safeCssValidator = path.join(assetsRoot, "safe-css-validator.mjs");
 const themeJsonPath = path.join(options.themeSource, "theme.json");
 const themeCssPath = path.join(options.themeSource, "theme.css");
@@ -95,11 +97,6 @@ for (const [target, label] of [
   [themeJsonPath, "Theme metadata"],
   [themeCssPath, "Theme Safe CSS"],
 ]) assertRegularFile(target, label);
-
-const runtimeVersion = fs.readFileSync(versionPath, "utf8").trim();
-if (runtimeVersion !== EXPECTED_VERSION) {
-  throw new Error(`This patch is verified only for Dream Skin ${EXPECTED_VERSION}; found ${JSON.stringify(runtimeVersion)}.`);
-}
 
 const theme = JSON.parse(fs.readFileSync(themeJsonPath, "utf8"));
 if (theme.id !== THEME_ID) throw new Error(`Unexpected theme id: ${JSON.stringify(theme.id)}`);
@@ -128,7 +125,7 @@ const hooks = fs.readFileSync(options.hooksPath, "utf8").replace(/\r\n/g, "\n");
 
 const safeFadeSelector = ':is(.app-shell-main-content-top-fade, [data-app-shell-main-content-top-fade]:not(:has(*)), [class*="_MainContentTopFade_"])';
 if (!originalCss.includes(safeFadeSelector)) {
-  throw new Error(`Dream Skin ${EXPECTED_VERSION}'s safe top-fade selector is missing. Reinstall the unmodified engine.`);
+  throw new Error(`The upstream safe top-fade selector is missing. This runtime structure is unsupported; reinstall the unmodified engine.`);
 }
 
 const rootAttrsOld = '    "data-dream-skin", SHELL_ATTR, "data-dream-upload-alpha",';
@@ -206,7 +203,7 @@ let rendererForCompile = renderer
   .replaceAll("__DREAM_SKIN_ART_JSON__", '"data:image/webp;base64,"')
   .replaceAll("__DREAM_SKIN_THEME_JSON__", "{}")
   .replaceAll("__DREAM_SKIN_ART_METADATA_JSON__", "null")
-  .replaceAll("__DREAM_SKIN_VERSION_JSON__", `"${EXPECTED_VERSION}"`)
+  .replaceAll("__DREAM_SKIN_VERSION_JSON__", `"${runtimeVersion}"`)
   .replaceAll("__DREAM_SKIN_STYLE_REVISION_JSON__", '"takemi-check"')
   .replaceAll("__DREAM_SKIN_PAYLOAD_REVISION_JSON__", '"takemi-check"');
 if (/__DREAM_SKIN_[A-Z0-9_]+_JSON__/.test(rendererForCompile)) {

@@ -8,11 +8,11 @@ P5R red, white, and black visuals · Native control restyling · Static low-over
 
 [P5R · Tae Takemi Theme Background](./p5r-tae-takemi-ethy-theme/background.webp)
 
-> Current theme version: `v1.3`. The full Windows and macOS runtime patches currently support **Codex Dream Skin 1.5.20**.
+> Current theme version: `v1.3.1`. The full Windows and macOS runtime patches currently support **Codex Dream Skin 1.5.20 / 1.5.21**.
 
 This project is an independently maintained fork based on [Fei-Away/Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin), focused on the Persona 5 Royal / Tae Takemi visual style, interface readability hierarchy, low-overhead static presentation, and theme localization.
 
-The v1.3 release files are located directly in the repository root, including the base theme, full visual override styles, and the one-click Windows installer.
+The v1.3.1 release files are located directly in the repository root, including the base theme, full visual override styles, and the one-click Windows installer.
 
 ## Features
 
@@ -29,7 +29,7 @@ The v1.3 release files are located directly in the repository root, including th
 
 ### Windows: One-click full theme installation
 
-The full theme currently supports **Codex Dream Skin 1.5.20**.
+The full theme currently supports **Codex Dream Skin 1.5.20 / 1.5.21**.
 
 1. Install and launch Codex Dream Skin from [Fei-Away/Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin).
 2. Confirm that both Codex Desktop and Dream Skin open normally.
@@ -38,7 +38,7 @@ The full theme currently supports **Codex Dream Skin 1.5.20**.
 5. After installation completes, open **Saved Themes** from the Dream Skin tray menu and select **P5R · Tae Takemi · ethy**.
 6. Restart or refresh Codex.
 
-The batch file calls `apply-takemi-runtime.ps1` from the same directory. The script automatically checks the Dream Skin runtime version. If it is not `1.5.20`, installation stops to avoid modifying an unknown runtime version.
+The batch file calls `apply-takemi-runtime.ps1` from the same directory. The script automatically checks the Dream Skin runtime version. The installer validates the runtime structure and syntax rather than rejecting a particular version; unsupported structure fails safely.
 
 During installation, the following local Dream Skin runtime location is modified:
 
@@ -51,7 +51,7 @@ The theme is also copied into Dream Skin's local theme directory.
 Before the runtime is modified for the first time, the installer automatically creates:
 
 ```text
-%LOCALAPPDATA%\CodexDreamSkin\backups\p5r-tae-takemi-ethy\1.5.20\
+%LOCALAPPDATA%\CodexDreamSkin\backups\p5r-tae-takemi-ethy\<runtime-version>\
 ```
 
 This directory stores the original runtime files.
@@ -60,7 +60,7 @@ This directory stores the original runtime files.
 
 ### macOS: One-click full theme installation
 
-Install and launch Codex Dream Skin 1.5.20 first, then double-click the following file inside the repository's `macos` folder:
+Install and launch Codex Dream Skin 1.5.20 / 1.5.21 first, then double-click the following file inside the repository's `macos` folder:
 
 ```text
 Install-Takemi-Theme.command
@@ -120,8 +120,8 @@ Restore the original Dream Skin runtime while keeping the base Tae Takemi theme:
 
 | Item | Status |
 | --- | --- |
-| Theme version | `v1.3` |
-| Windows full runtime theme | ✅ Verified with Dream Skin `1.5.20` |
+| Theme version | `v1.3.1` |
+| Windows full runtime theme | ✅ Verified with Dream Skin `1.5.20 / 1.5.21` |
 | Windows base theme ZIP | ✅ |
 | macOS base theme ZIP | ✅ |
 | macOS full runtime theme | ✅ Complete |

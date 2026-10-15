@@ -1,0 +1,97 @@
+name: Publish Tae Takemi Theme v1.3.1
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-takemi-v1.3.1.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: takemi-theme-release-v1.3.1
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.repository == 'eth1ny/Codex-Dream-Skin-P5R-Tae-Takemi-ethy'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact release source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Verify intended version and file list
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -Fq 'v1.3.1' README.md
+          grep -Fq '1.5.21' README.md
+          grep -Fq '1.5.21' README.en.md
+          grep -Fq '[switch]$DryRun' apply-takemi-runtime.ps1
+          grep -Fq 'runtimeVersion' macos/patch-takemi-runtime.mjs
+          grep -Fq 'ENGINE_VERSION' macos/restore-takemi-runtime-macos.sh
+          # Remove legacy transport footer in the Windows installer source before packaging.
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('apply-takemi-runtime.ps1')
+          s = p.read_text(encoding='utf-8')
+          marker = '[executed on device:'
+          if marker in s:
+              p.write_text(s.split(marker, 1)[0].rstrip() + '\n', encoding='utf-8')
+          PY
+          node --check macos/patch-takemi-runtime.mjs
+          bash -n macos/Install-Takemi-Theme.command macos/apply-takemi-runtime-macos.sh macos/restore-takemi-runtime-macos.sh macos/test-patch-macos.sh
+          for file in \
+            README.md README.en.md MAINTENANCE.md RELEASE-NOTES-v1.3.1.md .gitignore \
+            Install-Takemi-Theme.bat apply-takemi-runtime.ps1 \
+            takemi-runtime-override.css p5r-tae-takemi-ethy-theme.zip \
+            macos/.gitignore macos/Install-Takemi-Theme.command \
+            macos/apply-takemi-runtime-macos.sh macos/patch-takemi-runtime.mjs \
+            macos/renderer-takemi-hooks.js macos/restore-takemi-runtime-macos.sh \
+            macos/test-patch-macos.sh p5r-tae-takemi-ethy-theme/background.webp \
+            p5r-tae-takemi-ethy-theme/theme.css p5r-tae-takemi-ethy-theme/theme.json; do
+            test -s "$file" || { echo "Missing or empty: $file" >&2; exit 1; }
+          done
+
+      - name: Build release assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          name='Codex-Dream-Skin-P5R-Tae-Takemi-ethy-v1.3.1.zip'
+          # Preserve macOS launcher executable permission in the distributed ZIP.
+          chmod +x macos/Install-Takemi-Theme.command
+          zip -q -X "$name" \
+            README.md README.en.md MAINTENANCE.md RELEASE-NOTES-v1.3.1.md .gitignore \
+            Install-Takemi-Theme.bat apply-takemi-runtime.ps1 \
+            takemi-runtime-override.css p5r-tae-takemi-ethy-theme.zip \
+            macos/.gitignore macos/Install-Takemi-Theme.command \
+            macos/apply-takemi-runtime-macos.sh macos/patch-takemi-runtime.mjs \
+            macos/renderer-takemi-hooks.js macos/restore-takemi-runtime-macos.sh \
+            macos/test-patch-macos.sh p5r-tae-takemi-ethy-theme/background.webp \
+            p5r-tae-takemi-ethy-theme/theme.css p5r-tae-takemi-ethy-theme/theme.json
+          test "$(unzip -Z -1 "$name" | wc -l | tr -d ' ')" = 19
+          unzip -t "$name"
+          sha256sum "$name" > "$name.sha256"
+          sha256sum -c "$name.sha256"
+          printf 'RELEASE_ASSET=%s\n' "$name" >> "$GITHUB_ENV"
+
+      - name: Publish v1.3.1 GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if gh release view v1.3.1 >/dev/null 2>&1; then
+            echo 'v1.3.1 already exists; refusing to overwrite.'
+            exit 1
+          fi
+          cp RELEASE-NOTES-v1.3.1.md "$RUNNER_TEMP/takemi-v1.3.1-notes.md"
+          gh release create v1.3.1 \
+            "$RELEASE_ASSET" "$RELEASE_ASSET.sha256" \
+            --target "$GITHUB_SHA" \
+            --title 'P5R Tae Takemi Theme v1.3.1' \
+            --notes-file "$RUNNER_TEMP/takemi-v1.3.1-notes.md" \
+            --latest

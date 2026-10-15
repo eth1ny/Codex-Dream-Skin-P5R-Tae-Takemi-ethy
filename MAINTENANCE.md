@@ -1,4 +1,4 @@
-# v1.3 maintenance map
+# v1.3.1 maintenance map
 
 ## Canonical sources
 
@@ -22,7 +22,7 @@ Do not add selectors based on translated UI text. Prefer stable `data-*`, test I
 ## Update checklist
 
 1. Reinstall the unmodified target Dream Skin runtime.
-2. Confirm the version guard before changing it.
+2. Verify runtime structure and version-isolated backups instead of relying on a fixed version allowlist.
 3. Re-run the Windows patch against a copied engine and the macOS patch test.
 4. Inspect the live Codex DOM for each selector contract.
 5. Verify tooltip, history hover card, profile menu, reasoning expanded/collapsed states, and terminal focus/resize.
