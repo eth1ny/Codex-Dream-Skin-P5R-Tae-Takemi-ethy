@@ -14,6 +14,7 @@ if (-not $EngineRoot) { $EngineRoot = Join-Path $StateRoot 'engine' }
 
 $themeSource = Join-Path $PSScriptRoot 'p5r-tae-takemi-ethy-theme'
 $overridePath = Join-Path $PSScriptRoot 'takemi-runtime-override.css'
+$hooksPath = Join-Path $PSScriptRoot 'macos\renderer-takemi-hooks.js'
 $assetsRoot = Join-Path $EngineRoot 'assets'
 $rendererPath = Join-Path $assetsRoot 'renderer-inject.js'
 $baseCssPath = Join-Path $assetsRoot 'dream-skin.css'
@@ -43,7 +44,7 @@ Assert-PlainDirectory $assetsRoot 'Dream Skin assets'
 
 $requiredFiles = @(
   $versionPath, $rendererPath, $baseCssPath, $safeCssValidator, $bundledNode,
-  $overridePath, (Join-Path $themeSource 'theme.json'), (Join-Path $themeSource 'theme.css')
+  $overridePath, $hooksPath, (Join-Path $themeSource 'theme.json'), (Join-Path $themeSource 'theme.css')
 )
 foreach ($path in $requiredFiles) {
   if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { throw "Missing required file: $path" }
@@ -243,6 +244,10 @@ $titleBlock = @'
 
 '@
 $titleBlock = $titleBlock.Replace("`r`n", "`n")
+# Keep the renderer hook identical on Windows and macOS.  The historical
+# here-string above remains an upgrade reference for older patched runtimes;
+# new installs use the canonical, independently syntax-checked hook source.
+$titleBlock = [System.IO.File]::ReadAllText($hooksPath).Replace("`r`n", "`n")
 if (-not $renderer.Contains($titleMarkerStart)) {
   $titleAnchor = '  const refreshScope = () => {'
   if ($renderer.Split(@($titleAnchor), [System.StringSplitOptions]::None).Length -ne 2) {
@@ -272,6 +277,10 @@ if (-not $renderer.Contains($refreshNew)) {
     $renderer = Replace-Unique $renderer $refreshOld $refreshNew 'Title and surface marker refresh'
   }
 }
+$analysisOld = '  const analysisPromise = artAnalysis ? Promise.resolve(null) : analyzeArt();'
+$analysisNew = '  const analysisPromise = artAnalysis ? Promise.resolve(null) :' + "`n" +
+  '    (p5rNeedsArtAnalysis() ? analyzeArt() : Promise.resolve(null));'
+$renderer = Replace-Unique $renderer $analysisOld $analysisNew 'Takemi artwork analysis fast path'
 $languageWatchOld = '      attributeFilter: ["class", "data-theme", "data-appearance", "data-color-mode"],'
 $languageWatchNew = '      attributeFilter: ["class", "data-theme", "data-appearance", "data-color-mode", "lang"],'
 $renderer = Replace-Unique $renderer $languageWatchOld $languageWatchNew 'Language observer'

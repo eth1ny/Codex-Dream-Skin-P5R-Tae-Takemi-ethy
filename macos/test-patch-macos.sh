@@ -28,6 +28,8 @@ printf '%s' "$first" | /usr/bin/grep -q '"mode": "apply"'
 printf '%s' "$second" | /usr/bin/grep -q '"rendererChanged": false'
 printf '%s' "$second" | /usr/bin/grep -q '"cssChanged": false'
 [ "$(/usr/bin/grep -c 'P5R TAE TAKEMI TITLES v1.4 START' "$ENGINE_COPY/assets/renderer-inject.js")" -eq 1 ]
+[ "$(/usr/bin/grep -c 'p5rNeedsArtAnalysis' "$ENGINE_COPY/assets/renderer-inject.js")" -eq 2 ]
+[ "$(/usr/bin/grep -c 'data-takemi-home-mode-switch' "$ENGINE_COPY/assets/renderer-inject.js")" -ge 3 ]
 [ "$(/usr/bin/grep -c 'Local Dream Skin runtime supplement for the P5R Tae Takemi theme' "$ENGINE_COPY/assets/dream-skin.css")" -eq 1 ]
 [ -f "$STATE_COPY/themes/p5r-tae-takemi-ethy/theme.json" ]
 [ -f "$STATE_COPY/themes/p5r-tae-takemi-ethy/theme.css" ]

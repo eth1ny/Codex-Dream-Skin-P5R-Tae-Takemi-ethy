@@ -5,7 +5,8 @@
 - `takemi-runtime-override.css` is the only cross-platform full-theme CSS source.
 - `p5r-tae-takemi-ethy-theme/` is the only base-theme asset source.
 - `apply-takemi-runtime.ps1` owns Windows runtime patching.
-- `macos/patch-takemi-runtime.mjs` and `macos/renderer-takemi-hooks.js` own macOS runtime patching and platform hooks.
+- `macos/patch-takemi-runtime.mjs` owns macOS runtime patching.
+- `macos/renderer-takemi-hooks.js` is the single cross-platform renderer-hook source; both patchers must install it verbatim.
 - Runtime backups are generated under the Dream Skin state directory. They are not repository sources and must not be committed or copied into a release.
 
 ## Floating surface contracts

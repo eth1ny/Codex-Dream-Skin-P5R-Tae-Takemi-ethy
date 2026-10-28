@@ -99,6 +99,53 @@
     } else if (p5rRoot.hasAttribute("data-takemi-settings-page")) {
       p5rRoot.removeAttribute("data-takemi-settings-page");
     }
+
+    /* Codex 26.10 moved the compact Chat / Work switch into the home content
+       column.  That column is offset by the expanded sidebar, so the switch
+       is no longer centred in the window and its native top offset straddles
+       the titlebar divider.  Discover the two-action segmented control by
+       structure while the work home is visible; no translated labels or
+       generated class names are involved. */
+    const p5rVisibleWorkHome = [...document.querySelectorAll('[data-feature="game-source"]')]
+      .find((node) => {
+        const rect = node.getBoundingClientRect();
+        return rect.width > 0 && rect.height > 0;
+      });
+    const p5rPreviousModeSwitch = document.querySelector('[data-takemi-home-mode-switch="true"]');
+    let p5rModeSwitch = null;
+    if (p5rVisibleWorkHome) {
+      const p5rMainRect = p5rMain?.getBoundingClientRect();
+      const p5rCandidates = document.querySelectorAll(
+        '[role="tablist"], ' +
+        'div:has(> button:first-child:nth-last-child(2)):not(:has(> :not(button))), ' +
+        'div:has(> [role="tab"]:first-child:nth-last-child(2)):not(:has(> :not([role="tab"])))',
+      );
+      p5rModeSwitch = [...p5rCandidates].find((node) => {
+        const actions = [...node.children].filter((child) =>
+          child.matches?.('button, [role="tab"]'));
+        if (actions.length !== 2 || actions.length !== node.children.length) return false;
+        const rect = node.getBoundingClientRect();
+        return rect.width >= 120 && rect.width <= 360 && rect.height >= 28 && rect.height <= 64 &&
+          rect.top >= 0 && rect.bottom <= (p5rMainRect?.top || 88) + 96;
+      }) || null;
+    }
+    if (p5rPreviousModeSwitch && p5rPreviousModeSwitch !== p5rModeSwitch) {
+      p5rPreviousModeSwitch.removeAttribute("data-takemi-home-mode-switch");
+    }
+    if (p5rModeSwitch?.getAttribute("data-takemi-home-mode-switch") !== "true") {
+      p5rModeSwitch?.setAttribute("data-takemi-home-mode-switch", "true");
+    }
+  };
+
+  /* The theme already supplies explicit palette, focus, safe-area and task
+     mode values.  Pixel-scanning the artwork cannot affect its rendered
+     result, but costs a canvas decode/readback during startup. */
+  const p5rNeedsArtAnalysis = () => {
+    if ((THEME.id || "custom") !== "p5r-tae-takemi-ethy") return true;
+    return THEME.colorMode !== "explicit" ||
+      typeof ART.focusX !== "number" || typeof ART.focusY !== "number" ||
+      !ART.safeArea || ART.safeArea === "auto" ||
+      !ART.taskMode || ART.taskMode === "auto";
   };
   /* P5R TAE TAKEMI TITLES v1.4 END */
 

@@ -190,6 +190,14 @@ if (!renderer.includes(refreshNew)) {
     : replaceUnique(renderer, refreshOld, refreshNew, "Title and surface marker refresh");
 }
 
+renderer = replaceUnique(
+  renderer,
+  "  const analysisPromise = artAnalysis ? Promise.resolve(null) : analyzeArt();",
+  "  const analysisPromise = artAnalysis ? Promise.resolve(null) :\n" +
+    "    (p5rNeedsArtAnalysis() ? analyzeArt() : Promise.resolve(null));",
+  "Takemi artwork analysis fast path",
+);
+
 const languageWatchOld = '      attributeFilter: ["class", "data-theme", "data-appearance", "data-color-mode"],';
 const languageWatchNew = '      attributeFilter: ["class", "data-theme", "data-appearance", "data-color-mode", "lang"],';
 renderer = replaceUnique(renderer, languageWatchOld, languageWatchNew, "Language observer");

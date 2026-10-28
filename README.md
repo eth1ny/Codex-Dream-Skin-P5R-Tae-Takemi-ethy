@@ -8,11 +8,11 @@ P5R 红白黑视觉 · 原生控件换肤 · 静态低负载 · 中英文标题�
 
 [P5R · Tae Takemi 主题背景](./p5r-tae-takemi-ethy-theme/background.webp)
 
-> 当前主题版本：`v1.3.1`。Windows 与 macOS 完整运行时补丁目前适配 **Codex Dream Skin 1.5.20 / 1.5.21**。
+> 当前主题版本：`v1.3.2`。Windows 与 macOS 完整运行时补丁目前适配 **Codex Dream Skin 1.5.20 / 1.5.21**。
 
 本项目是基于 [Fei-Away/Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin) 持续维护的独立 fork，主要维护 Persona 5 Royal / 武见妙视觉、界面阅读层级、低负载静态表现与主题本地化。
 
-本仓库的 v1.3.1 发布文件直接位于仓库根目录，包括基础主题、完整视觉覆盖样式与 Windows 一键安装脚本。
+本仓库的 v1.3.2 发布文件直接位于仓库根目录，包括基础主题、完整视觉覆盖样式与 Windows 一键安装脚本。
 
 ## 功能
 
@@ -120,7 +120,7 @@ Install-Takemi-Theme.command
 
 | 项目 | 状态 |
 | --- | --- |
-| 主题版本 | `v1.3.1` |
+| 主题版本 | `v1.3.2` |
 | Windows 完整运行时主题 | ✅ Dream Skin `1.5.20 / 1.5.21` 已验证 |
 | Windows 基础主题 ZIP | ✅ |
 | macOS 基础主题 ZIP | ✅ |
