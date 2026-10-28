@@ -100,34 +100,48 @@
       p5rRoot.removeAttribute("data-takemi-settings-page");
     }
 
-    /* Codex 26.10 moved the compact Chat / Work switch into the home content
-       column.  That column is offset by the expanded sidebar, so the switch
-       is no longer centred in the window and its native top offset straddles
-       the titlebar divider.  Discover the two-action segmented control by
-       structure while the work home is visible; no translated labels or
-       generated class names are involved. */
-    const p5rVisibleWorkHome = [...document.querySelectorAll('[data-feature="game-source"]')]
-      .find((node) => {
-        const rect = node.getBoundingClientRect();
-        return rect.width > 0 && rect.height > 0;
-      });
+    /* Codex 26.10 moved the compact Chat / Work switch into an offset home
+       column and removed the former data-feature="game-source" home marker.
+       Find the segmented control by geometry and child structure instead of
+       translated labels, generated classes, or the retired marker. */
     const p5rPreviousModeSwitch = document.querySelector('[data-takemi-home-mode-switch="true"]');
     let p5rModeSwitch = null;
-    if (p5rVisibleWorkHome) {
-      const p5rMainRect = p5rMain?.getBoundingClientRect();
-      const p5rCandidates = document.querySelectorAll(
-        '[role="tablist"], ' +
-        'div:has(> button:first-child:nth-last-child(2)):not(:has(> :not(button))), ' +
-        'div:has(> [role="tab"]:first-child:nth-last-child(2)):not(:has(> :not([role="tab"])))',
-      );
-      p5rModeSwitch = [...p5rCandidates].find((node) => {
-        const actions = [...node.children].filter((child) =>
-          child.matches?.('button, [role="tab"]'));
-        if (actions.length !== 2 || actions.length !== node.children.length) return false;
-        const rect = node.getBoundingClientRect();
-        return rect.width >= 120 && rect.width <= 360 && rect.height >= 28 && rect.height <= 64 &&
-          rect.top >= 0 && rect.bottom <= (p5rMainRect?.top || 88) + 96;
-      }) || null;
+    const p5rHeader = document.querySelector('header[data-ds-part="header"]');
+    const p5rHeaderRect = p5rHeader?.getBoundingClientRect();
+    const p5rModeScope = p5rHeader?.querySelector('[class*="home-mode-toggle"]');
+    if (p5rModeScope && p5rHeaderRect?.width > 0) {
+      const p5rCandidates = [...p5rModeScope.querySelectorAll('[role="group"], [role="tablist"]')]
+        .map((node) => {
+          const rect = node.getBoundingClientRect();
+          /* The current control has two aria-pressed buttons plus two
+             decorative grid children, so node.children.length is not a
+             reliable action count. */
+          const actions = [...node.children].filter((child) => {
+            const childRect = child.getBoundingClientRect();
+            return child.matches?.('button[aria-pressed], [role="tab"]') &&
+              childRect.width > 0 && childRect.height > 0;
+          });
+          if (actions.length !== 2 || rect.width < 160 || rect.width > 320 ||
+              rect.height < 28 || rect.height > 64 ||
+              rect.top < p5rHeaderRect.top || rect.bottom > p5rHeaderRect.bottom + 40) return null;
+          const actionRects = actions.map((action) => action.getBoundingClientRect());
+          const [first, second] = actionRects;
+          const textLengths = actions.map((action) => (action.textContent || "").trim().length);
+          const isHorizontalPair = Math.abs(first.top - second.top) <= 4 &&
+            Math.abs(first.height - second.height) <= 4 &&
+            second.left >= first.right - 4 && second.left - first.right <= 12;
+          const isBalancedPair = Math.abs(first.width - second.width) <= rect.width * 0.22 &&
+            first.width + second.width >= rect.width * 0.72;
+          if (!isHorizontalPair || !isBalancedPair ||
+              textLengths.some((length) => length < 1 || length > 24)) return null;
+          const nativeTargetX = p5rHeaderRect.left + p5rHeaderRect.width * 0.65;
+          const score = Math.abs(rect.width - 220) + Math.abs(rect.height - 38) * 2 +
+            Math.abs(rect.left + rect.width / 2 - nativeTargetX) * 0.2;
+          return { node, score };
+        })
+        .filter(Boolean)
+        .sort((left, right) => left.score - right.score);
+      p5rModeSwitch = p5rCandidates[0]?.node || null;
     }
     if (p5rPreviousModeSwitch && p5rPreviousModeSwitch !== p5rModeSwitch) {
       p5rPreviousModeSwitch.removeAttribute("data-takemi-home-mode-switch");

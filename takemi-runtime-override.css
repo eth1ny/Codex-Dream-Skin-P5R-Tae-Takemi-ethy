@@ -666,15 +666,20 @@ html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"] [data-ds-part="home-hero"] 
   outline-offset: 3px !important;
 }
 
-/* Keep Codex's compact Chat / Work switch centred in the whole window.  The
-   native 26.10 layout centres it inside the sidebar-offset content column and
-   places it across the titlebar divider.  The renderer hook adds the marker
-   only to the two-action segmented control on the visible work home. */
+/* Centre Codex's compact Chat / Work switch in the conversation area.  Match
+   the semantic two-button mode group directly so the correction is present
+   on its first painted frame; the renderer marker remains as a compatibility
+   fallback.  The app header ends four pixels before the main surface, hence
+   the two-pixel centre correction. */
+html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
+  header[data-app-shell-titlebar="true"]
+  [class*="home-mode-toggle"]
+  [role="group"]:has(> button[aria-pressed]:nth-of-type(2)):not(:has(> button[aria-pressed]:nth-of-type(3))),
 html[data-dream-skin-theme-id="p5r-tae-takemi-ethy"]
   [data-takemi-home-mode-switch="true"] {
   position: fixed !important;
-  inset: auto auto auto 50vw !important;
-  top: calc(var(--app-shell-application-menu-height, 36px) + 26px) !important;
+  inset: auto auto auto calc(50% + 2px) !important;
+  top: 50% !important;
   margin: 0 !important;
   transform: translate(-50%, -50%) !important;
   z-index: 45 !important;
